@@ -3,8 +3,15 @@ $(document).ready(function () {
   const workingHours = [9, 10, 11, 12, 13, 14, 15, 16, 17];
   const container = $(".container");
   const currentDay = $("#currentDay");
-  let displayDate = new Date();
+  let displayDate = moment().format("dddd, Do of MMMM YYYY, h:mm a");
   currentDay.text(displayDate);
+
+  // Updates the current time. Note: Run setInterval to handle updating the page every second
+  function updateTime() {
+    displayDate = moment().format("dddd, Do of MMMM YYYY, HH:mm");
+    currentDay.text(displayDate);
+    return displayDate;
+  }
 
   // Create the diary structure on the html page
   function createDiary() {
@@ -31,5 +38,6 @@ $(document).ready(function () {
       buttonAdd.append(buttonIconAdd);
     }
   }
+  setInterval(updateTime, 1000);
   createDiary();
 });
