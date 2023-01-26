@@ -18,8 +18,8 @@ body {
   font-size: 16px;
   line-height: 1;
   padding-bottom: 50px;
-  background-color: var(--mainColor);
-  color: white;
+  background-color: white;
+  color: var(--mainColor);
 }
 
 textarea {
@@ -33,7 +33,7 @@ textarea {
 
 .jumbotron {
   text-align: center;
-  background-color: transparent;
+  background-color: var(--mainColor);
   color: white;
   border-radius: 0;
   border-bottom: 1px solid white;
@@ -55,8 +55,8 @@ textarea {
   white-space: pre-wrap;
   height: 80px;
   /* border-top: 1px solid white; */
-  box-shadow: 0 0.4rem 0.8rem 0 rgb(255, 255, 255, 0.3),
-    0 0.6rem 2rem 0 rgb(255, 255, 255, 0.2);
+  box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2),
+    0 0.6rem 2rem 0 rgba(0, 0, 0, 0.1);
   margin: 10px;
   padding: 10px;
 }
@@ -70,34 +70,35 @@ textarea {
 }
 
 .past {
-  background-color: #d3d3d3;
+  background-color: var(--mainColorOP);
   color: white;
 }
 
 .present {
-  background-color: #ff6961;
+  background-color: var(--secondaryColor);
   color: white;
 }
 
 .future {
-  background-color: #77dd77;
+  background-color: var(--secondaryColorOP);
   color: white;
 }
 
 .saveBtn {
-  background-color: var(--secondaryColor);
+  background-color: var(--mainColor);
   color: white;
   border-radius: 15px;
 }
 
 .saveBtn:hover {
-  background-color: var(--mainColor);
+  background-color: white;
   transform: scale(1.05);
   transform-origin: center;
 }
 
 .saveBtn:hover i {
   font-size: 20px;
+  color: var(--mainColor);
   transition: all 0.3s ease-in-out;
 }
 
@@ -105,4 +106,5 @@ textarea {
   padding: 5px;
   border: none;
   border-left: 1px solid black;
+  background: transparent;
 }

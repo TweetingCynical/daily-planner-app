@@ -10,6 +10,18 @@ $(document).ready(function () {
   function updateTime() {
     displayDate = moment().format("dddd, Do of MMMM YYYY, HH:mm");
     currentDay.text(displayDate);
+
+    // For loop to continually check time for restyling rows
+    for (let i = 0; i < workingHours.length; i++) {
+      if (moment().hour() === workingHours[i]) {
+        $("#" + workingHours[i]).attr("class", "row time-block present");
+      } else if (moment().hour() > workingHours[i]) {
+        $("#" + workingHours[i]).attr("class", "row time-block past");
+      } else {
+        $("#" + workingHours[i]).attr("class", "row time-block future");
+      }
+    }
+
     return displayDate;
   }
 
@@ -17,7 +29,7 @@ $(document).ready(function () {
   function createDiary() {
     for (let i = 0; i < workingHours.length; i++) {
       let inputAdd = $("<section>").addClass("row time-block");
-      inputAdd.attr("id", `hour-${workingHours[i]}`);
+      inputAdd.attr("id", workingHours[i]);
       container.append(inputAdd);
       let hourAdd = $("<section>")
         .addClass("col-md-1 hour")
