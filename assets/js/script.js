@@ -165,6 +165,8 @@ $(document).ready(function () {
     let type = $(this).siblings(".type").val();
     let saved = moment();
     toStorage(timeKey, text, type, saved);
+
+    // Display message to notify user for 2 seconds that task details were saved
     $("#notify").addClass("show");
     setTimeout(function () {
       $("#notify").removeClass("show");
