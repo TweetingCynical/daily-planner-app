@@ -100,15 +100,22 @@ textarea {
 
 .saveBtn:hover,
 .clearBtn:hover {
-  background-color: white;
   transform: scale(1.05);
   transform-origin: center;
+}
+
+.saveBtn:hover {
+  background-color: #0f9d58;
+}
+
+.clearBtn:hover {
+  background-color: #db4437;
 }
 
 .saveBtn:hover i,
 .clearBtn:hover i {
   font-size: 25px;
-  color: var(--mainColor);
+  color: white;
   transition: all 0.3s ease-in-out;
 }
 
