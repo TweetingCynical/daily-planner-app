@@ -64,9 +64,6 @@ $(document).ready(function () {
     },
   };
 
-  // const timeKeys = Object.keys(plannerStorage);
-  // const plannerLen = timeKeys.length;
-
   // Updates the current time. Note: Run setInterval to handle updating the page every second
   function updateTime() {
     displayDate = moment().format("dddd, Do of MMMM YYYY");
@@ -93,15 +90,25 @@ $(document).ready(function () {
       inputAdd.attr("id", workingHours[i]);
       container.append(inputAdd);
       let hourAdd = $("<section>")
-        .addClass("col-md-1 hour")
+        .addClass("col-lg-1 col-md-2 col-sm-6 col-6 hour")
         .text(`${workingHours[i]}:00`);
-      let selectAdd = $("<select>").addClass("type col-md-2");
+      let selectAdd = $("<select>")
+        .addClass("type col-lg-2 col-md-2 col-sm-6 col-6")
+        .attr("id", `select-${workingHours[i]}`);
       let workOpt = $("<option>").attr("name", "work").text("Work");
       let personalOpt = $("<option>").attr("name", "personal").text("Personal");
       let otherOpt = $("<option>").attr("name", "other").text("Other");
-      let textAreaAdd = $("<textarea>").addClass("col-md-8 task");
-      let buttonAdd = $("<button>").addClass("button saveBtn col-md-1");
+      let textAreaAdd = $("<textarea>").addClass(
+        "col-lg-8 col-md-7 col-sm-10 col-10 task"
+      );
+      let buttonAdd = $("<button>").addClass(
+        "button saveBtn col-lg-1 col-md-1 col-sm-2 col-2"
+      );
       let buttonIconAdd = $("<i>").addClass("fa-regular fa-floppy-disk");
+
+      selectAdd.append(workOpt).append(personalOpt).append(otherOpt);
+      inputAdd.append(hourAdd, selectAdd, textAreaAdd, buttonAdd);
+      buttonAdd.append(buttonIconAdd);
 
       let saveDate = plannerObject[i + 8].saved;
 
@@ -109,10 +116,6 @@ $(document).ready(function () {
         selectAdd.val(plannerObject[i + 8].type);
         textAreaAdd.val(plannerObject[i + 8].text);
       }
-
-      selectAdd.append(workOpt).append(personalOpt).append(otherOpt);
-      inputAdd.append(hourAdd, textAreaAdd, selectAdd, buttonAdd);
-      buttonAdd.append(buttonIconAdd);
     }
     $("#8").children().eq(0).text("Morning");
     $("#18").children().eq(0).text("Evening");
