@@ -39,7 +39,7 @@ textarea {
   height: 250px;
 }
 
-.description {
+.task {
   white-space: pre-wrap;
 }
 
@@ -101,7 +101,7 @@ textarea {
   transition: all 0.3s ease-in-out;
 }
 
-.category {
+.type {
   padding: 5px;
   border: none;
   border-left: 1px solid black;

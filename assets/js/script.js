@@ -64,6 +64,9 @@ $(document).ready(function () {
     },
   };
 
+  // const timeKeys = Object.keys(plannerStorage);
+  // const plannerLen = timeKeys.length;
+
   // Updates the current time. Note: Run setInterval to handle updating the page every second
   function updateTime() {
     displayDate = moment().format("dddd, Do of MMMM YYYY");
@@ -92,13 +95,21 @@ $(document).ready(function () {
       let hourAdd = $("<section>")
         .addClass("col-md-1 hour")
         .text(`${workingHours[i]}:00`);
-      let selectAdd = $("<select>").addClass("category col-md-2");
+      let selectAdd = $("<select>").addClass("type col-md-2");
       let workOpt = $("<option>").attr("name", "work").text("Work");
       let personalOpt = $("<option>").attr("name", "personal").text("Personal");
       let otherOpt = $("<option>").attr("name", "other").text("Other");
-      let textAreaAdd = $("<textarea>").addClass("col-md-8 description");
+      let textAreaAdd = $("<textarea>").addClass("col-md-8 task");
       let buttonAdd = $("<button>").addClass("button saveBtn col-md-1");
       let buttonIconAdd = $("<i>").addClass("fa-regular fa-floppy-disk");
+
+      let saveDate = plannerObject[i + 8].saved;
+
+      if (moment().isSame(saveDate, "day")) {
+        selectAdd.val(plannerObject[i + 8].type);
+        textAreaAdd.val(plannerObject[i + 8].text);
+      }
+
       selectAdd.append(workOpt).append(personalOpt).append(otherOpt);
       inputAdd.append(hourAdd, textAreaAdd, selectAdd, buttonAdd);
       buttonAdd.append(buttonIconAdd);
@@ -110,19 +121,25 @@ $(document).ready(function () {
   function fromStorage() {
     let plannerObject = JSON.parse(localStorage.getItem("plannerObject"));
 
-    if (plannerObject === null) {
-      plannerObject = plannerStorage;
+    if (plannerObject !== null) {
+      plannerStorage = plannerObject;
     }
-    return plannerObject;
+    return plannerStorage;
   }
 
-  function toStorage() {
+  function toStorage(timeKey, textSave, typeSave, savedSave) {
+    plannerStorage[timeKey].text = textSave;
+    plannerStorage[timeKey].type = typeSave;
+    plannerStorage[timeKey].saved = savedSave;
     localStorage.setItem("plannerObject", JSON.stringify(plannerStorage));
   }
 
-  $(document).on("click", ".saveBtn", function (event) {
-    let parentID = $(event.target).parent().attr("id");
-    toStorage();
+  $(document).on("click", ".saveBtn", function () {
+    let timeKey = $(this).parent().attr("id");
+    let text = $(this).siblings(".task").val();
+    let type = $(this).siblings(".type").val();
+    let saved = moment();
+    toStorage(timeKey, text, type, saved);
   });
 
   let plannerObject = fromStorage();
