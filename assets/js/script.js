@@ -165,6 +165,10 @@ $(document).ready(function () {
     let type = $(this).siblings(".type").val();
     let saved = moment();
     toStorage(timeKey, text, type, saved);
+    $("#notify").addClass("show");
+    setTimeout(function () {
+      $("#notify").removeClass("show");
+    }, 2000);
   });
 
   // Add event listener for clearBtn
