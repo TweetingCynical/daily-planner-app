@@ -84,16 +84,15 @@ textarea::placeholder {
 }
 
 .present {
-  background-color: var(--secondaryColor);
+  background-color: #db4437;
 }
 
 .future {
-  background-color: var(--secondaryColorOP);
+  background-color: #f4b400;
 }
 
 .saveBtn,
 .clearBtn {
-  background-color: var(--mainColor);
   color: white;
   border-radius: 10px;
 }
@@ -103,12 +102,19 @@ textarea::placeholder {
   font-size: 20px;
 }
 
-.saveBtn:hover {
+.saveBtn {
   background-color: #0f9d58;
 }
 
+.clearBtn {
+  background-color: #4285f4;
+}
+
+.saveBtn:hover,
 .clearBtn:hover {
-  background-color: #db4437;
+  font-size: 25px;
+  color: white;
+  background-color: var(--mainColor);
 }
 
 .saveBtn:hover i,
