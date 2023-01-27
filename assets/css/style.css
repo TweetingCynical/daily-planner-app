@@ -22,6 +22,10 @@ body {
   color: var(--mainColor);
 }
 
+.container {
+  width: 100%;
+}
+
 textarea {
   background: transparent;
   border: none;
@@ -82,20 +86,28 @@ textarea {
   background-color: var(--secondaryColorOP);
 }
 
-.saveBtn {
+.saveBtn,
+.clearBtn {
   background-color: var(--mainColor);
   color: white;
   border-radius: 10px;
 }
 
-.saveBtn:hover {
+.saveBtn i,
+.clearBtn i {
+  font-size: 20px;
+}
+
+.saveBtn:hover,
+.clearBtn:hover {
   background-color: white;
   transform: scale(1.05);
   transform-origin: center;
 }
 
-.saveBtn:hover i {
-  font-size: 20px;
+.saveBtn:hover i,
+.clearBtn:hover i {
+  font-size: 25px;
   color: var(--mainColor);
   transition: all 0.3s ease-in-out;
 }

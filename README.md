@@ -171,7 +171,7 @@ Some of the key JavaScript skills being utilised:
 
 ### Suggested future changes
 
-- Add a delete button to remove options from the row and then overwrite saved data;
+- ✅ ~~Add a delete button to remove options from the row and then overwrite saved data;~~
 - Implement an .ics file that can be downloaded to add each event to someone's calendar
 
 ## License

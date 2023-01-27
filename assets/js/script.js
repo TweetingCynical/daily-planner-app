@@ -107,18 +107,25 @@ $(document).ready(function () {
 
       // Create textarea
       let textAreaAdd = $("<textarea>").addClass(
-        "col-lg-8 col-md-7 col-sm-10 col-10 task"
+        "col-lg-7 col-md-6 col-sm-8 col-12 task"
       );
       //Create save button
       let buttonAdd = $("<button>").addClass(
-        "button saveBtn col-lg-1 col-md-1 col-sm-2 col-2"
+        "button saveBtn col-lg-1 col-md-1 col-sm-2 col-6"
       );
       let buttonIconAdd = $("<i>").addClass("fa-regular fa-floppy-disk");
 
+      //Create clear button
+      let clearAdd = $("<button>").addClass(
+        "button clearBtn col-lg-1 col-md-1 col-sm-2 col-6"
+      );
+      let clearIconAdd = $("<i>").addClass("fa-regular fa-trash-can");
+
       // Append newly created elements for this row
       selectAdd.append(workOpt).append(personalOpt).append(otherOpt);
-      inputAdd.append(hourAdd, selectAdd, textAreaAdd, buttonAdd);
+      inputAdd.append(hourAdd, selectAdd, textAreaAdd, buttonAdd, clearAdd);
       buttonAdd.append(buttonIconAdd);
+      clearAdd.append(clearIconAdd);
 
       // Fill the content from localStorage IF the saved date is for today
       let saveDate = plannerObject[i + 8].saved;
@@ -157,6 +164,17 @@ $(document).ready(function () {
     let text = $(this).siblings(".task").val();
     let type = $(this).siblings(".type").val();
     let saved = moment();
+    toStorage(timeKey, text, type, saved);
+  });
+
+  // Add event listener for clearBtn
+  $(document).on("click", ".clearBtn", function () {
+    let timeKey = $(this).parent().attr("id");
+    $(this).siblings(".task").val("");
+    $(this).siblings(".type").val("");
+    let text = "";
+    let type = "";
+    let saved = "";
     toStorage(timeKey, text, type, saved);
   });
 
