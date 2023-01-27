@@ -2,8 +2,6 @@
 :root {
   --mainColor: #3c1934;
   --mainColorOP: #3c1934a0;
-  --secondaryColor: #aa3619;
-  --secondaryColorOP: #aa361980;
 }
 
 html {
@@ -33,6 +31,7 @@ textarea {
   color: white;
   padding: 5px;
   margin: 2px auto;
+  line-height: 1.3;
 }
 
 textarea::placeholder {
