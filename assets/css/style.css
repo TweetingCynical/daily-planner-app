@@ -28,7 +28,7 @@ body {
 
 textarea {
   background: transparent;
-  border: 1px dashed var(--mainColor);
+  border: 1px dashed var(--mainColorOP);
   resize: none;
   color: white;
   padding: 5px;
@@ -36,7 +36,7 @@ textarea {
 }
 
 textarea::placeholder {
-  color: var(--mainColor);
+  color: var(--mainColorOP);
   font-family: monospace;
 }
 

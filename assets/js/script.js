@@ -71,7 +71,11 @@ function updateTime() {
 
   // For loop to continually check time for restyling rows, and add correct classes
   for (let i = 0; i < workingHours.length; i++) {
-    if (moment().hour() === workingHours[i]) {
+    if (
+      moment().hour() === workingHours[i] ||
+      (moment().hour() >= 18 && workingHours[i] === 18) ||
+      (moment().hour() <= 9 && workingHours[i] === 8)
+    ) {
       $("#" + workingHours[i]).addClass("row time-block present");
     } else if (moment().hour() > workingHours[i]) {
       $("#" + workingHours[i]).addClass("row time-block past");
@@ -107,7 +111,7 @@ function createDiary() {
     // Create textarea
     const textAreaAdd = $("<textarea>")
       .addClass("col-lg-6 col-md-5 col-sm-7 col-12 task")
-      .attr("placeholder", "Task details here...");
+      .attr("placeholder", "Enter task details here...");
 
     //Create save button
     const buttonAdd = $("<button>").addClass(
