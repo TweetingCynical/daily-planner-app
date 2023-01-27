@@ -1,6 +1,6 @@
 # Daily Planner App
 
-## A simple daily planner app which [INSERT FUNCTIONALITY HERE], using JavaScript and CSS to interact with the html elements on the page
+## A simple daily planner app which allows users to save task details on an hourly basis, using JavaScript and CSS to interact with the html elements on the page
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -31,12 +31,15 @@
 
 ### Screenshot
 
-Working version of site should look like this at standard screen size:
+Working version of the site should look like this at standard screen size:
 ![Site Screenshot](./assets/screenshot.png)
+
+After saving data, the site should look like this at standard screen size:
+![Site Screenshot](./assets/screenshot-postsave.png)
 
 ### Scope and Purpose
 
-Build an interactive daily planner app with
+Build an interactive daily planner app with functionality that ensures tasks are restored to the page if a user saves and leaves. Further, the tasks should not show if they were not saved on the same date as today, to ensure that each page loads fresh each day. Finally, the hourly rows should be colour coded to see which are past, present or future.
 
 ### Usage
 
@@ -44,17 +47,132 @@ This site and its codeset are for educational purposes only.
 
 ### Installation
 
-<!-- Pseudocode and overview of build -->
+N/A
 
 ## Pseudocode
 
 Steps to achieving the working Daily Planner App:
 
+- On page load, display current date and time on header;
+- Update time every second so that it changes on the change of each minute;
+- Create the diary structure on page:
+  - Hour time;
+  - Task text area;
+  - Type select options;
+  - Save button
+- Load saved row data from localStorage, checking that the saved date of any options are on today's date:
+  - Object with key/value pairs:
+    {
+    timestamp: date,
+    9: [text, type, saved]
+    10: [text, type, saved]
+    ... etc
+    }
+- Style each diary row based on the current time:
+  - Rows that fall BEFORE the current hour (faded purple);
+  - Row this is current hour (orange);
+  - Rows that fall AFTER current hour (faded orange);
+- Create the styling such that it changes on the hour change
+- Save row data to localStorage using correct format
+
 ## Overview of Build
 
 Some of the key JavaScript skills being utilised:
 
+- Use of moment.js to format and display the correct date:
+
+  ```javascript
+  const currentDay = $("#currentDay");
+  let displayDate = moment().format("dddd, Do of MMMM YYYY");
+  currentDay.text(displayDate);
+  ```
+
+- Use of a for loop to check the current hour, and match correct styling to the relevant rows:
+
+  ```javascript
+  for (let i = 0; i < workingHours.length; i++) {
+    if (moment().hour() === workingHours[i]) {
+      $("#" + workingHours[i]).attr("class", "row time-block present");
+    } else if (moment().hour() > workingHours[i]) {
+      $("#" + workingHours[i]).attr("class", "row time-block past");
+    } else {
+      $("#" + workingHours[i]).attr("class", "row time-block future");
+    }
+  }
+  ```
+
+- Use of jQuery to add all row elements to the page with correct css styling and text value content:
+
+  ```javascript
+  function createDiary() {
+    for (let i = 0; i < workingHours.length; i++) {
+      let inputAdd = $("<section>").addClass("row time-block");
+      inputAdd.attr("id", workingHours[i]);
+      container.append(inputAdd);
+      let hourAdd = $("<section>")
+        .addClass("col-lg-1 col-md-2 col-sm-6 col-6 hour")
+        .text(`${workingHours[i]}:00`);
+      let selectAdd = $("<select>")
+        .addClass("type col-lg-2 col-md-2 col-sm-6 col-6")
+        .attr("id", `select-${workingHours[i]}`);
+      let workOpt = $("<option>").attr("name", "work").text("Work");
+      let personalOpt = $("<option>").attr("name", "personal").text("Personal");
+      let otherOpt = $("<option>").attr("name", "other").text("Other");
+      let textAreaAdd = $("<textarea>").addClass(
+        "col-lg-8 col-md-7 col-sm-10 col-10 task"
+      );
+      let buttonAdd = $("<button>").addClass(
+        "button saveBtn col-lg-1 col-md-1 col-sm-2 col-2"
+      );
+      let buttonIconAdd = $("<i>").addClass("fa-regular fa-floppy-disk");
+
+      selectAdd.append(workOpt).append(personalOpt).append(otherOpt);
+      inputAdd.append(hourAdd, selectAdd, textAreaAdd, buttonAdd);
+      buttonAdd.append(buttonIconAdd);
+    }
+  }
+  ```
+
+- Use of localStorage to get previously saved items from the user's browser:
+
+  ```javascript
+  function fromStorage() {
+    let plannerObject = JSON.parse(localStorage.getItem("plannerObject"));
+
+    if (plannerObject !== null) {
+      plannerStorage = plannerObject;
+    }
+    return plannerStorage;
+  }
+  ```
+
+- Function to save the correct row's data into the localStorage:
+
+  ```javascript
+  $(document).on("click", ".saveBtn", function () {
+    let timeKey = $(this).parent().attr("id");
+    let text = $(this).siblings(".task").val();
+    let type = $(this).siblings(".type").val();
+    let saved = moment();
+    toStorage(timeKey, text, type, saved);
+  });
+  ```
+
+- Use of the stored objects to save changes to the user's localStorage:
+
+  ```javascript
+  function toStorage(timeKey, textSave, typeSave, savedSave) {
+    plannerStorage[timeKey].text = textSave;
+    plannerStorage[timeKey].type = typeSave;
+    plannerStorage[timeKey].saved = savedSave;
+    localStorage.setItem("plannerObject", JSON.stringify(plannerStorage));
+  }
+  ```
+
 ### Suggested future changes
+
+- Add a delete button to remove options from the row and then overwrite saved data;
+- Implement an .ics file that can be downloaded to add each event to someone's calendar
 
 ## License
 

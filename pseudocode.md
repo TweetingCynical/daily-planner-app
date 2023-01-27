@@ -11,17 +11,17 @@ Steps to achieving the working Daily Planner App:
   - Task text area;
   - Type select options;
   - Save button
-- Load saved row data from localStorage:
+- Load saved row data from localStorage, checking that the saved date of any options are on today's date:
   - Object with key/value pairs:
     {
     timestamp: date,
-    9: [text, type]
-    10: [text, type]
+    9: [text, type, saved]
+    10: [text, type, saved]
     ... etc
     }
 - Style each diary row based on the current time:
-  - Rows that fall BEFORE the current hour;
-  - Row this is current hour;
-  - Rows that fall AFTER current hour;
-- Style select option with colour coding based on dropdown selection;
+  - Rows that fall BEFORE the current hour (faded purple);
+  - Row this is current hour (orange);
+  - Rows that fall AFTER current hour (faded orange);
+- Create the styling such that it changes on the hour change
 - Save row data to localStorage using correct format
