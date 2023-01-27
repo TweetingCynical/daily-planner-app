@@ -36,7 +36,6 @@ textarea {
   background-color: var(--mainColor);
   color: white;
   border-radius: 0;
-  border-bottom: 1px solid white;
   height: 250px;
 }
 
