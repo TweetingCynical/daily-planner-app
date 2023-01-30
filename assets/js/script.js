@@ -9,82 +9,107 @@ currentDay.text(displayDate);
 let plannerStorage = {
   8: {
     text: "",
-    type: "Work",
+    type: "",
     saved: "",
   },
   9: {
     text: "",
-    type: "Work",
+    type: "",
     saved: "",
   },
   10: {
     text: "",
-    type: "Work",
+    type: "",
     saved: "",
   },
   11: {
     text: "",
-    type: "Work",
+    type: "",
     saved: "",
   },
   12: {
     text: "",
-    type: "Work",
+    type: "",
     saved: "",
   },
   13: {
     text: "",
-    type: "Work",
+    type: "",
     saved: "",
   },
   14: {
     text: "",
-    type: "Work",
+    type: "",
     saved: "",
   },
   15: {
     text: "",
-    type: "Work",
+    type: "",
     saved: "",
   },
   16: {
     text: "",
-    type: "Work",
+    type: "",
     saved: "",
   },
   17: {
     text: "",
-    type: "Work",
+    type: "",
     saved: "",
   },
   18: {
     text: "",
-    type: "Work",
+    type: "",
     saved: "",
   },
 };
 
-// Updates the current time. Note: Run setInterval to handle updating the page every second
-function updateTime() {
-  displayDate = moment().format("dddd, Do of MMMM YYYY");
-  currentDay.text(displayDate);
-
-  // For loop to continually check time for restyling rows, and add correct classes
-  for (let i = 0; i < workingHours.length; i++) {
-    if (
-      moment().hour() === workingHours[i] ||
-      (moment().hour() >= 18 && workingHours[i] === 18) ||
-      (moment().hour() <= 9 && workingHours[i] === 8)
-    ) {
-      $("#" + workingHours[i]).addClass("row time-block present");
-    } else if (moment().hour() > workingHours[i]) {
-      $("#" + workingHours[i]).addClass("row time-block past");
-    } else {
-      $("#" + workingHours[i]).addClass("row time-block future");
-    }
+// Get the localStorage from user's browser
+function fromStorage() {
+  const plannerObject = JSON.parse(localStorage.getItem("plannerObject"));
+  if (plannerObject !== null) {
+    plannerStorage = plannerObject;
   }
-  return displayDate;
+  // Either return the localStorage version of plannerStorage, or the JS saved version of the same object
+  return plannerStorage;
 }
+
+// Save only the correct row options for the button that was clicked, and update these values into the object in localStorage
+function toStorage(timeKey, textSave, typeSave, savedSave) {
+  plannerStorage[timeKey].text = textSave;
+  plannerStorage[timeKey].type = typeSave;
+  plannerStorage[timeKey].saved = savedSave;
+  localStorage.setItem("plannerObject", JSON.stringify(plannerStorage));
+}
+
+// Call function to get localStorage
+const plannerObject = fromStorage();
+
+// Add event listener for all saveBtn
+$(document).on("click", ".saveBtn", function () {
+  const timeKey = $(this).parent().attr("id");
+  const text = $(this).siblings(".task").val();
+  const type = $(this).siblings(".type").val();
+  const saved = moment();
+  toStorage(timeKey, text, type, saved);
+
+  // Display message to notify user for 2 seconds that task details were saved
+  $("#notify").addClass("show");
+  setTimeout(function () {
+    $("#notify").removeClass("show");
+  }, 2000);
+});
+
+// Add event listener for clearBtn
+$(document).on("click", ".clearBtn", function () {
+  const timeKey = $(this).parent().attr("id");
+  $(this).siblings(".task").val("");
+  $(this).siblings(".type").val("Work");
+  const text = "";
+  const type = "";
+  const saved = "";
+  toStorage(timeKey, text, type, saved);
+});
 
 // Create the diary structure on the html page
 function createDiary() {
@@ -96,14 +121,19 @@ function createDiary() {
     container.append(inputAdd);
 
     // Create hour display
-    const hourAdd = $("<section>")
-      .addClass("col-lg-1 col-md-2 col-sm-6 col-6 hour")
-      .text(`${workingHours[i]}:00`);
-
+    const hourAdd = $("<section>").addClass(
+      "col-lg-1 col-md-2 col-sm-6 col-6 hour"
+    );
+    if (workingHours[i] > 12) {
+      hourAdd.text(`${workingHours[i] - 12}pm`);
+    } else {
+      hourAdd.text(`${workingHours[i]}am`);
+    }
     // Create option selection
     const selectAdd = $("<select>")
       .addClass("type col-lg-2 col-md-2 col-sm-6 col-6")
-      .attr("id", `select-${workingHours[i]}`);
+      .attr("id", `select-${workingHours[i]}`)
+      .attr("placeholder", "Choose Type");
     const workOpt = $("<option>").attr("name", "work").text("Work");
     const personalOpt = $("<option>").attr("name", "personal").text("Personal");
     const otherOpt = $("<option>").attr("name", "other").text("Other");
@@ -144,52 +174,27 @@ function createDiary() {
   $("#18").children().eq(0).text("Evening");
 }
 
-// Get the localStorage from user's browser
-function fromStorage() {
-  const plannerObject = JSON.parse(localStorage.getItem("plannerObject"));
-  if (plannerObject !== null) {
-    plannerStorage = plannerObject;
+// Updates the current time. Note: Run setInterval to handle updating the page every second
+function updateTime() {
+  displayDate = moment().format("dddd, Do of MMMM YYYY");
+  currentDay.text(displayDate);
+
+  // For loop to continually check time for restyling rows, and add correct classes
+  for (let i = 0; i < workingHours.length; i++) {
+    if (
+      moment().hour() === workingHours[i] ||
+      (moment().hour() >= 18 && workingHours[i] === 6) ||
+      (moment().hour() <= 9 && workingHours[i] === 8)
+    ) {
+      $("#" + workingHours[i]).addClass("row time-block present");
+    } else if (moment().hour() > workingHours[i]) {
+      $("#" + workingHours[i]).addClass("row time-block past");
+    } else {
+      $("#" + workingHours[i]).addClass("row time-block future");
+    }
   }
-  // Either return the localStorage version of plannerStorage, or the JS saved version of the same object
-  return plannerStorage;
+  return displayDate;
 }
-
-// Save only the correct row options for the button that was clicked, and update these values into the object in localStorage
-function toStorage(timeKey, textSave, typeSave, savedSave) {
-  plannerStorage[timeKey].text = textSave;
-  plannerStorage[timeKey].type = typeSave;
-  plannerStorage[timeKey].saved = savedSave;
-  localStorage.setItem("plannerObject", JSON.stringify(plannerStorage));
-}
-
-// Add event listener for all saveBtn
-$(document).on("click", ".saveBtn", function () {
-  const timeKey = $(this).parent().attr("id");
-  const text = $(this).siblings(".task").val();
-  const type = $(this).siblings(".type").val();
-  const saved = moment();
-  toStorage(timeKey, text, type, saved);
-
-  // Display message to notify user for 2 seconds that task details were saved
-  $("#notify").addClass("show");
-  setTimeout(function () {
-    $("#notify").removeClass("show");
-  }, 2000);
-});
-
-// Add event listener for clearBtn
-$(document).on("click", ".clearBtn", function () {
-  const timeKey = $(this).parent().attr("id");
-  $(this).siblings(".task").val("");
-  $(this).siblings(".type").val("Work");
-  const text = "";
-  const type = "";
-  const saved = "";
-  toStorage(timeKey, text, type, saved);
-});
-
-// Call function to get localStorage
-const plannerObject = fromStorage();
 
 // Update the time every second so that row blocks change styling on the hour
 setInterval(updateTime, 60000);
