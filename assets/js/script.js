@@ -132,8 +132,7 @@ function createDiary() {
     // Create option selection
     const selectAdd = $("<select>")
       .addClass("type col-lg-2 col-md-2 col-sm-6 col-6")
-      .attr("id", `select-${workingHours[i]}`)
-      .attr("placeholder", "Choose Type");
+      .attr("id", `select-${workingHours[i]}`);
     const workOpt = $("<option>").attr("name", "work").text("Work");
     const personalOpt = $("<option>").attr("name", "personal").text("Personal");
     const otherOpt = $("<option>").attr("name", "other").text("Other");
